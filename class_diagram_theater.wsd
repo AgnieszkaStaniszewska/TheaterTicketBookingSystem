@@ -1,0 +1,48 @@
+@startuml
+
+class Client
+{ 
+    e-mail address
+}
+
+class Person
+{
+    name
+}
+
+class ReservationSystem {}
+
+class Cart {}
+
+class Show 
+{
+    name
+    price
+    description
+}
+
+class Time {}
+
+class Order {}
+
+class Theater {}
+
+class OnlinePayment {}
+class OnPlacePayment {}
+
+Client --|> Person
+Cart --> Order :<<create>>
+Show --o Cart
+Show --o Order
+Theater o-- ReservationSystem
+Theater o-- Client
+Theater o-- Show
+Cart -- Client
+Show -- Time
+OnlinePayment --|> ReservationSystem
+OnPlacePayment --|> ReservationSystem
+Theater -- OnlinePayment
+Theater -- OnPlacePayment
+
+
+@enduml

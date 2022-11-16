@@ -1,0 +1,36 @@
+@startuml
+
+actor User
+
+Theater -> Theater : sum_order (Order)
+activate Theater
+return value
+
+Theater -> OPS : start_payment (transaction_id, transaction_data, value)
+Theater -> User : redirect to OPS
+activate User
+User -> OPS : input card data
+activate OPS
+OPS -> Bank : authorize operation
+activate Bank
+alt successful authorization
+    return successful
+    OPS --> User : redirect to Theater
+    deactivate User
+    OPS --> Theater : payment success
+    deactivate OPS
+    Theater -> "Reservation System" : reserve the ticket
+else operation not authorized
+    activate User
+    activate OPS
+    activate Bank
+    Bank --> OPS : failure
+    deactivate Bank
+    OPS --> User : cancel payment
+    deactivate User
+    OPS --> Theater : cancel payment
+    deactivate OPS
+    Theater -> Theater : cancel order
+    end
+
+@endluml

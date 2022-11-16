@@ -1,0 +1,37 @@
+@startuml
+
+actor Client
+actor "Reservation System"
+actor "Online Payment System" as OPS
+
+usecase "Choose Spectacle"
+usecase "Choose Date"
+usecase "Seat Reservation"
+usecase "Type of Ticket"
+usecase "Add to Cart"
+usecase "Remove from Cart"
+usecase "Create Order"
+usecase "Close Cart"
+usecase "Payment"
+usecase "Online Payment"
+usecase "On Place Payment"
+usecase "Book a Ticket"
+
+Client -- (Choose Spectacle)
+Client -- (Choose Date)
+Client -- (Seat Reservation)
+Client -- (Type of Ticket)
+Client -- (Add to Cart)
+Client -- (Remove from Cart)
+Client -- (Create Order)
+Client -- (Close Cart)
+(Create Order) --> (Close Cart) :<<invoke>>
+(Close Cart) --> Payment :<<invoke>>
+
+(Online Payment) --|> Payment
+(On Place Payment) --|> Payment
+OPS -- (Online Payment)
+Payment --> (Book a Ticket) :<<invoke>>
+(Book a Ticket) --> (Reservation System) :<<invoke>>
+
+@enduml

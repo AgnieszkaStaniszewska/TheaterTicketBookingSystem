@@ -1,0 +1,40 @@
+@startuml
+
+(*) --> Logging in
+--> "Search Spectacles"
+--> "Choose Date"
+--> "Choose Seat"
+--> Type of Ticket
+if "Get normal ticket?" as if1 then
+    --> [No] "Choose half-price ticket"
+    else
+    --> [Yes] "Add to Cart"
+endif
+"Choose half-price ticket" --> "Add to Cart"
+"Add to Cart" --> "Create Order"
+if "Add more tickets?" as if2 then
+    --> [Yes] "Search Spectacles"
+    else
+    --> [No] "Close Cart"
+endif
+"Close Cart" --> "Fill the ticket information"
+if "Payment method?" as if3 then
+    --> [Online Payment] "Redirect to OPS Operator" as Next
+    else
+    --> [On Place Payment] "Book a ticket in Reservation System"
+endif
+Next --> if "Is payment accepted?" as if4 then
+    --> [No] if3
+    else
+    --> [Yes] "Book a ticket in Reservation System"
+endif
+"Book a ticket in Reservation System" --> "Send the ticket to email address"
+if "Has been the order paid for 24h before the show?" as if5 then
+    -->[No] "Cancel reservation"
+    --> (*)
+    else
+    -->[Yes] "Keep the reservation"
+endif
+--> (*)
+
+@enduml
